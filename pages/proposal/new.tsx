@@ -51,19 +51,22 @@ const NewProposal = () => {
       PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
     };
 
-    const optionsPayload: OptionsType = {
-      id: Math.floor(Math.random() * 10000 + 1),
-      proposal_id: proposalId,
-      opt: choicesArray,
-      created_at: new Date(),
-      PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
-    };
+    const optionsPayload: OptionsType[] = [];
+
+    choicesArray.map((choice) => {
+      let payload: OptionsType = {
+        id: Math.floor(Math.random() * 10000 + 1),
+        proposal_id: proposalId,
+        opt: choice,
+        created_at: new Date(),
+        PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
+      };
+      optionsPayload.push(payload);
+    });
 
     proposalCtx.addProposal(proposalPayload);
     proposalCtx.addOption(optionsPayload);
   };
-
-  console.log(proposalCtx.proposals);
 
   return (
     <Layout home={false}>

@@ -7,64 +7,6 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import { ProposalsType, OptionsType } from '../../../models';
 import styles from './ProposalDetail.module.scss';
 
-interface foundProposalType {
-  foundProposal: ProposalsType;
-}
-
-const DUMMY_PROPOSALS: ProposalsType[] = [
-  {
-    id: 1,
-    title: 'Do you like art?',
-    description: 'To determine how much you like the art.',
-    end_date: new Date('05/05/2022'),
-    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-    created_at: new Date('05/05/2021'),
-    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-  },
-  {
-    id: 2,
-    title: 'Do you like music?',
-    description: 'To determine how much you like the music.',
-    end_date: new Date('05/05/2022'),
-    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-    created_at: new Date('05/05/2021'),
-    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-  },
-  {
-    id: 3,
-    title: 'Do you like programming?',
-    description: 'To determine how much you like the programming.',
-    end_date: new Date('05/05/2022'),
-    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-    created_at: new Date('05/05/2021'),
-    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-  },
-];
-
-const DUMMY_OPTIONS: OptionsType[] = [
-  {
-    id: 1,
-    proposal_id: 1,
-    opt: ['Yes', 'Of Course', 'YES WE LOVE ART!!!'],
-    created_at: new Date('05/05/2021'),
-    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-  },
-  {
-    id: 2,
-    proposal_id: 2,
-    opt: ['Yes', 'Of Course', 'YES WE LOVE MUSIC!!!'],
-    created_at: new Date('05/05/2021'),
-    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-  },
-  {
-    id: 3,
-    proposal_id: 3,
-    opt: ['Yes', 'Of Course', 'YES WE LOVE PROGRAMMING!!!'],
-    created_at: new Date('05/05/2021'),
-    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-  },
-];
-
 // const ProposalId: React.FC<{ foundProposal: ProposalsType; foundOptions: OptionsType }> = ({
 //   foundProposal,
 //   foundOptions,
@@ -85,10 +27,10 @@ const ProposalId: React.FC = () => {
 
   useEffect(() => {
     const foundProposal = proposalCtx.proposals.find((proposal) => proposal.id.toString() === id);
-    const foundOptions = proposalCtx.options.find((opt) => opt.proposal_id.toString() === id);
+    const foundOptions = proposalCtx.options.filter((opt) => opt.proposal_id.toString() === id).map((opt) => opt.opt);
     if (foundProposal) setProposal(foundProposal);
-    if (foundOptions) setOptions(foundOptions.opt);
-  });
+    if (foundOptions) setOptions(foundOptions);
+  }, [proposalCtx.proposals, proposalCtx.options]);
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>

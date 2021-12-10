@@ -8,7 +8,7 @@ export interface AdminsType {
 export interface OptionsType {
   id: number;
   proposal_id: number;
-  opt: string[];
+  opt: string;
   created_at: Date;
   PRIMARY_KEY: string;
 }

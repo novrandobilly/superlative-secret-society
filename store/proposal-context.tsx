@@ -5,13 +5,13 @@ interface ProposalContextType {
   proposals: ProposalsType[];
   options: OptionsType[];
   addProposal: (payload: ProposalsType) => void;
-  addOption: (payload: OptionsType) => void;
+  addOption: (payload: OptionsType[]) => void;
 }
 export const ProposalContext = createContext<ProposalContextType>({
   proposals: [],
   options: [],
   addProposal: (payload: ProposalsType) => {},
-  addOption: (payload: OptionsType) => {},
+  addOption: (payload: OptionsType[]) => {},
 });
 
 const ProposalContextProvider: React.FC = ({ children }) => {
@@ -48,21 +48,63 @@ const ProposalContextProvider: React.FC = ({ children }) => {
     {
       id: 1,
       proposal_id: 1,
-      opt: ['Yes', 'Of Course', 'YES WE LOVE ART!!!'],
+      opt: 'Yes',
+      created_at: new Date('05/05/2021'),
+      PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    },
+    {
+      id: 2,
+      proposal_id: 1,
+      opt: 'Of Course',
+      created_at: new Date('05/05/2021'),
+      PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    },
+    {
+      id: 3,
+      proposal_id: 1,
+      opt: 'YES WE LOVE ART!!!',
+      created_at: new Date('05/05/2021'),
+      PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    },
+    {
+      id: 1,
+      proposal_id: 2,
+      opt: 'Yes',
       created_at: new Date('05/05/2021'),
       PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
     },
     {
       id: 2,
       proposal_id: 2,
-      opt: ['Yes', 'Of Course', 'YES WE LOVE MUSIC!!!'],
+      opt: 'Of Course',
+      created_at: new Date('05/05/2021'),
+      PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    },
+    {
+      id: 3,
+      proposal_id: 2,
+      opt: 'YES WE LOVE MUSIC!!!',
+      created_at: new Date('05/05/2021'),
+      PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    },
+    {
+      id: 1,
+      proposal_id: 3,
+      opt: 'Yes',
+      created_at: new Date('05/05/2021'),
+      PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    },
+    {
+      id: 2,
+      proposal_id: 3,
+      opt: 'Of Course',
       created_at: new Date('05/05/2021'),
       PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
     },
     {
       id: 3,
       proposal_id: 3,
-      opt: ['Yes', 'Of Course', 'YES WE LOVE PROGRAMMING!!!'],
+      opt: 'YES WE LOVE PROGRAMMING!!!',
       created_at: new Date('05/05/2021'),
       PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
     },
@@ -72,8 +114,8 @@ const ProposalContextProvider: React.FC = ({ children }) => {
     setProposalList((prevState) => [...prevState, payload]);
   };
 
-  const addOptionHandler = (payload: OptionsType) => {
-    setOptionList((prevState) => [...prevState, payload]);
+  const addOptionHandler = (payload: OptionsType[]) => {
+    setOptionList((prevState) => [...prevState, ...payload]);
   };
 
   const contextValue: ProposalContextType = {
