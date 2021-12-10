@@ -5,11 +5,13 @@ interface ProposalContextType {
   proposals: ProposalsType[];
   options: OptionsType[];
   addProposal: (payload: ProposalsType) => void;
+  addOption: (payload: OptionsType) => void;
 }
 export const ProposalContext = createContext<ProposalContextType>({
   proposals: [],
   options: [],
   addProposal: (payload: ProposalsType) => {},
+  addOption: (payload: OptionsType) => {},
 });
 
 const ProposalContextProvider: React.FC = ({ children }) => {
@@ -70,10 +72,15 @@ const ProposalContextProvider: React.FC = ({ children }) => {
     setProposalList((prevState) => [...prevState, payload]);
   };
 
+  const addOptionHandler = (payload: OptionsType) => {
+    setOptionList((prevState) => [...prevState, payload]);
+  };
+
   const contextValue: ProposalContextType = {
     proposals: proposalList,
     options: optionList,
     addProposal: addProposalHandler,
+    addOption: addOptionHandler,
   };
 
   return <ProposalContext.Provider value={contextValue}>{children}</ProposalContext.Provider>;

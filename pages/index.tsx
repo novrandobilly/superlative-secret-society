@@ -10,6 +10,7 @@ import { ProposalsType } from '../models';
 
 const Home: NextPage = () => {
   const proposalCtx = useContext(ProposalContext);
+  console.log(proposalCtx.proposals);
   return (
     <Layout home>
       <Head>
