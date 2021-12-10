@@ -10,7 +10,7 @@ const NewProposal = () => {
     <Layout home={false}>
       <div className={styles.HeadingTitle}>
         <Link href='/' passHref>
-          <Image width={30} height={30} src={BackArrow} />
+          <Image width={30} height={30} src={BackArrow} alt='Back Arrow' />
         </Link>
         <h1>Create Proposal</h1>
       </div>
@@ -27,7 +27,7 @@ const NewProposal = () => {
         <div className={styles.ChoicesContainer}>
           <label htmlFor='Choices'>Choices</label>
           <div className={styles.ChoicesSubHeading}>
-            <p>Click "Add" button to add new choice.</p>
+            <p>Click &quot;Add&quot; button to add new choice.</p>
             <div className={styles.AddClearButtonContainer}>
               <button type='button' className={styles.ButtonAdd}>
                 Add
