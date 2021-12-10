@@ -18,7 +18,8 @@ const Home: NextPage = () => {
           <ProposalListItem
             title='Do you like art'
             datePosted={new Date('05/05/2021')}
-            id='0x4e0843e8daa53406121588feebf0cde0f1fcefc1'
+            authorId='0x4e0843e8daa53406121588feebf0cde0f1fcefc1'
+            id='s1'
             status='open'
             description='To determine how much you like the art.'
           />

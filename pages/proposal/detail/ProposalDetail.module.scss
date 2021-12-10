@@ -1,0 +1,136 @@
+.QuestionsContainer {
+  margin-bottom: 30px;
+  .DateEnds {
+    color: #8a8a8a;
+  }
+  .Description {
+    font-size: 28px;
+  }
+  .OptionList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    li {
+      border: 1px solid #0d6efd;
+      color: #0d6efd;
+      transition: all 0.2s;
+      width: 100%;
+      padding: 8px 0;
+      margin-bottom: 15px;
+      max-width: 700px;
+      text-align: center;
+      &:hover {
+        background-color: #0d6efd;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+  .ButtonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .SubmitButton {
+      background-color: #ffc107;
+      border: none;
+      padding: 10px 40px;
+      border-radius: 22px;
+      font-size: 20px;
+      transition: all 0.2s;
+      &:hover {
+        cursor: pointer;
+        background-color: #ffd041;
+      }
+      &:active {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.ResultsContainer {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  h3 {
+    margin: 0;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    font-weight: 400;
+  }
+  .OptionsContainer {
+    list-style: none;
+    padding: 0 20px;
+
+    .OptionItemPoll {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .OptionPercentage {
+      display: flex;
+      justify-content: space-between;
+    }
+    .ProgressBarBackground {
+      width: 100%;
+      height: 15px;
+      border-radius: 10px;
+      background-color: #c4c4c4;
+      position: relative;
+      .ProgressBar {
+        position: absolute;
+        height: 15px;
+        border-radius: 10px;
+        top: 0;
+        left: 0;
+        width: 20%;
+        background-image: linear-gradient(
+          45deg,
+          #ffffff26 25%,
+          transparent 25%,
+          transparent 50%,
+          #ffffff26 50%,
+          #ffffff26 75%,
+          transparent 75%,
+          transparent
+        );
+        background-color: #b642f5;
+      }
+    }
+  }
+}
+
+.VotesContainer {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+  h3 {
+    margin: 0;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    font-weight: 400;
+  }
+  .VoterList {
+    list-style: none;
+    padding: 0 20px;
+
+    li {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 10px 0;
+      p {
+        margin: 0;
+        span {
+          color: #b9bdc1;
+        }
+      }
+    }
+  }
+}
