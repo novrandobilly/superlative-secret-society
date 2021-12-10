@@ -17,11 +17,18 @@ const Home: NextPage = () => {
         <section className={styles.ProposalList}>
           <ProposalListItem
             title='Do you like art'
-            datePosted={new Date('05/05/2021')}
+            datePosted='05/05/2021'
             authorId='0x4e0843e8daa53406121588feebf0cde0f1fcefc1'
             id='s1'
             status='open'
             description='To determine how much you like the art.'
+          />
+          <ProposalListItem
+            title='Which should comes first?'
+            datePosted='08/25/2021'
+            authorId='0x4e0843e8daa53406121588feebf0cde0f1fcefc1'
+            id='s2'
+            status='open'
           />
         </section>
       </main>

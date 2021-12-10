@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 interface ProposalListItemType {
   title: string;
-  datePosted: Date;
+  datePosted: string;
   authorId: string;
   description?: string;
   status: 'open' | 'closed';
@@ -17,7 +17,7 @@ const ProposalListItem: React.FC<ProposalListItemType> = ({ title, datePosted, a
       <div className={styles.Container}>
         <h2>{title}</h2>
         <div className={styles.DateId}>
-          <p>{DateTime.fromJSDate(datePosted).toRelative({ unit: 'days' })} &nbsp;</p>
+          <p>{DateTime.fromJSDate(new Date(datePosted)).toRelative({ unit: 'days' })} &nbsp;</p>
           <p>&bull;&nbsp;&nbsp;by {authorId}</p>
         </div>
         {description && <p>{description}</p>}
