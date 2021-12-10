@@ -3,7 +3,38 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.scss';
 import ProposalListItem from '../components/ProposalListItem';
+import { DateTime } from 'luxon';
+import { ProposalsType } from '../models';
 
+const DUMMY_PROPOSALS: ProposalsType[] = [
+  {
+    id: 1,
+    title: 'Do you like art?',
+    description: 'To determine how much you like the art.',
+    end_date: new Date('05/05/2022'),
+    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+  {
+    id: 2,
+    title: 'Do you like music?',
+    description: 'To determine how much you like the music.',
+    end_date: new Date('05/05/2022'),
+    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+  {
+    id: 3,
+    title: 'Do you like programming?',
+    description: 'To determine how much you like the programming.',
+    end_date: new Date('05/05/2022'),
+    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+];
 const Home: NextPage = () => {
   return (
     <Layout home>
@@ -15,21 +46,9 @@ const Home: NextPage = () => {
 
       <main>
         <section className={styles.ProposalList}>
-          <ProposalListItem
-            title='Do you like art'
-            datePosted='05/05/2021'
-            authorId='0x4e0843e8daa53406121588feebf0cde0f1fcefc1'
-            id='s1'
-            status='open'
-            description='To determine how much you like the art.'
-          />
-          <ProposalListItem
-            title='Which should comes first?'
-            datePosted='08/25/2021'
-            authorId='0x4e0843e8daa53406121588feebf0cde0f1fcefc1'
-            id='s2'
-            status='open'
-          />
+          {DUMMY_PROPOSALS.map((proposal) => (
+            <ProposalListItem {...proposal} />
+          ))}
         </section>
       </main>
     </Layout>

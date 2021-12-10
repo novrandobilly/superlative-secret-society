@@ -2,50 +2,81 @@ import React from 'react';
 import Layout from '../../../components/Layout';
 import { DateTime } from 'luxon';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import { ProposalsType, OptionsType } from '../../../models';
 import styles from './ProposalDetail.module.scss';
 
-interface DummyDataType {
-  id: string;
-  authorId: string;
-  title: string;
-  dateEnds: string;
-  description?: string;
-  options: string[];
-}
-
 interface foundProposalType {
-  foundProposal: DummyDataType;
+  foundProposal: ProposalsType;
 }
 
-const DUMMY_DATA: DummyDataType[] = [
+const DUMMY_PROPOSALS: ProposalsType[] = [
   {
-    id: 's1',
-    authorId: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    id: 1,
     title: 'Do you like art?',
-    dateEnds: new Date('06/17/2022').toLocaleDateString(),
     description: 'To determine how much you like the art.',
-    options: ['Yes', 'Of Course', 'WE LIKE THE ART!!!'],
+    end_date: new Date('05/05/2022'),
+    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
   },
   {
-    id: 's2',
-    authorId: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
-    title: 'Which should comes first?',
-    dateEnds: new Date('02/21/2022').toLocaleDateString(),
-    options: ['Chicken', 'Egg', 'Repus'],
+    id: 2,
+    title: 'Do you like music?',
+    description: 'To determine how much you like the music.',
+    end_date: new Date('05/05/2022'),
+    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+  {
+    id: 3,
+    title: 'Do you like programming?',
+    description: 'To determine how much you like the programming.',
+    end_date: new Date('05/05/2022'),
+    publisher: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
   },
 ];
 
-const ProposalId: React.FC<foundProposalType> = ({ foundProposal }) => {
+const DUMMY_OPTIONS: OptionsType[] = [
+  {
+    id: 1,
+    proposal_id: 1,
+    opt: ['Yes', 'Of Course', 'YES WE LOVE ART!!!'],
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+  {
+    id: 2,
+    proposal_id: 2,
+    opt: ['Yes', 'Of Course', 'YES WE LOVE MUSIC!!!'],
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+  {
+    id: 3,
+    proposal_id: 3,
+    opt: ['Yes', 'Of Course', 'YES WE LOVE PROGRAMMING!!!'],
+    created_at: new Date('05/05/2021'),
+    PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
+  },
+];
+
+const ProposalId: React.FC<{ foundProposal: ProposalsType; foundOptions: OptionsType }> = ({
+  foundProposal,
+  foundOptions,
+}) => {
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
         <h1 className={styles.Title}>{foundProposal.title}</h1>
         <p className={styles.DateEnds}>
-          Ends {DateTime.fromJSDate(new Date(foundProposal.dateEnds)).toRelative({ unit: 'days' })}
+          Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'days' })}
         </p>
         {foundProposal.description && <p className={styles.Description}>{foundProposal.description}</p>}
         <ul className={styles.OptionList}>
-          {foundProposal.options.map((option, index) => {
+          {foundOptions.opt.map((option, index) => {
             return <li key={`${option}_${index}`}>{option}</li>;
           })}
         </ul>
@@ -135,16 +166,31 @@ export default ProposalId;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [{ params: { id: 's1' } }, { params: { id: 's2' } }],
+    paths: [{ params: { id: '1' } }, { params: { id: '2' } }, { params: { id: '3' } }],
     fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const foundProposal = DUMMY_DATA.filter((data) => data.id === params?.id);
+  const proposalId = params?.id;
+  console.log(proposalId);
+  // Fetching Data
+  const foundProposal = DUMMY_PROPOSALS.find((proposal) => proposal.id.toString() === proposalId);
+  const foundOption = DUMMY_OPTIONS.find((opt) => opt.proposal_id.toString() === proposalId);
+
+  const foundProposalSerialized = {
+    ...foundProposal,
+    end_date: foundProposal?.end_date.toLocaleString(),
+    created_at: foundProposal?.created_at.toLocaleString(),
+  };
+  const foundOptionSerialized = {
+    ...foundOption,
+    created_at: foundOption?.created_at.toLocaleString(),
+  };
   return {
     props: {
-      foundProposal: foundProposal[0],
+      foundProposal: foundProposalSerialized,
+      foundOptions: foundOptionSerialized,
     },
   };
 };
