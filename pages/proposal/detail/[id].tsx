@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ProposalContext } from '../../../store/proposal-context';
 import Layout from '../../../components/Layout';
 import { DateTime } from 'luxon';
 import { GetStaticProps, GetStaticPaths } from 'next';
@@ -63,21 +65,41 @@ const DUMMY_OPTIONS: OptionsType[] = [
   },
 ];
 
-const ProposalId: React.FC<{ foundProposal: ProposalsType; foundOptions: OptionsType }> = ({
-  foundProposal,
-  foundOptions,
-}) => {
+// const ProposalId: React.FC<{ foundProposal: ProposalsType; foundOptions: OptionsType }> = ({
+//   foundProposal,
+//   foundOptions,
+// }) => {
+const ProposalId: React.FC = () => {
+  const [proposal, setProposal] = useState<ProposalsType>({
+    id: 0,
+    title: '',
+    description: '',
+    end_date: new Date(),
+    publisher: '',
+    created_at: new Date(),
+    PRIMARY_KEY: '',
+  });
+  const [options, setOptions] = useState<string[]>([]);
+  const proposalCtx = useContext(ProposalContext);
+  const id = useRouter().query.id;
+
+  useEffect(() => {
+    const foundProposal = proposalCtx.proposals.find((proposal) => proposal.id.toString() === id);
+    const foundOptions = proposalCtx.options.find((opt) => opt.proposal_id.toString() === id);
+    if (foundProposal) setProposal(foundProposal);
+    if (foundOptions) setOptions(foundOptions.opt);
+  });
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
-        <h1 className={styles.Title}>{foundProposal.title}</h1>
+        <h1 className={styles.Title}>{proposal.title}</h1>
         <p className={styles.DateEnds}>
-          Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'days' })}
+          Ends {DateTime.fromJSDate(new Date(proposal.end_date)).toRelative({ unit: 'days' })}
         </p>
-        {foundProposal.description && <p className={styles.Description}>{foundProposal.description}</p>}
+        {proposal.description && <p className={styles.Description}>{proposal.description}</p>}
         <ul className={styles.OptionList}>
-          {foundOptions.opt.map((option, index) => {
-            return <li key={`${option}_${index}`}>{option}</li>;
+          {options.map((opt, index) => {
+            return <li key={`${opt}_${index}`}>{opt}</li>;
           })}
         </ul>
         <div className={styles.ButtonContainer}>
@@ -164,33 +186,33 @@ const ProposalId: React.FC<{ foundProposal: ProposalsType; foundOptions: Options
 
 export default ProposalId;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [{ params: { id: '1' } }, { params: { id: '2' } }, { params: { id: '3' } }],
-    fallback: false,
-  };
-};
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   return {
+//     paths: [{ params: { id: '1' } }, { params: { id: '2' } }, { params: { id: '3' } }],
+//     fallback: false,
+//   };
+// };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const proposalId = params?.id;
-  console.log(proposalId);
-  // Fetching Data
-  const foundProposal = DUMMY_PROPOSALS.find((proposal) => proposal.id.toString() === proposalId);
-  const foundOption = DUMMY_OPTIONS.find((opt) => opt.proposal_id.toString() === proposalId);
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const proposalId = params?.id;
+//   console.log(proposalId);
+//   // Fetching Data
+//   const foundProposal = DUMMY_PROPOSALS.find((proposal) => proposal.id.toString() === proposalId);
+//   const foundOption = DUMMY_OPTIONS.find((opt) => opt.proposal_id.toString() === proposalId);
 
-  const foundProposalSerialized = {
-    ...foundProposal,
-    end_date: foundProposal?.end_date.toLocaleString(),
-    created_at: foundProposal?.created_at.toLocaleString(),
-  };
-  const foundOptionSerialized = {
-    ...foundOption,
-    created_at: foundOption?.created_at.toLocaleString(),
-  };
-  return {
-    props: {
-      foundProposal: foundProposalSerialized,
-      foundOptions: foundOptionSerialized,
-    },
-  };
-};
+//   const foundProposalSerialized = {
+//     ...foundProposal,
+//     end_date: foundProposal?.end_date.toLocaleString(),
+//     created_at: foundProposal?.created_at.toLocaleString(),
+//   };
+//   const foundOptionSerialized = {
+//     ...foundOption,
+//     created_at: foundOption?.created_at.toLocaleString(),
+//   };
+//   return {
+//     props: {
+//       foundProposal: foundProposalSerialized,
+//       foundOptions: foundOptionSerialized,
+//     },
+//   };
+// };
