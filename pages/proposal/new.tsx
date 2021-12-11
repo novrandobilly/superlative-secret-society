@@ -30,7 +30,7 @@ const NewProposal = () => {
   }
 
   const addChoiceHandler: () => void = () => {
-    if (numberOfChoices < 4) setNumberOfChoices((prevState) => prevState + 1);
+    setNumberOfChoices((prevState) => prevState + 1);
   };
 
   const onClearHandler: () => void = () => {
@@ -38,34 +38,69 @@ const NewProposal = () => {
     setNumberOfChoices(1);
   };
 
-  const onSubmitHandler = (e: React.FormEvent) => {
+  // const onSubmitHandler = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const proposalId = Math.floor(Math.random() * 10000 + 1);
+  //   const proposalPayload: ProposalsType = {
+  //     id: proposalId,
+  //     title: titleRef.current?.value || '',
+  //     description: descriptionRef.current?.value || '',
+  //     end_date: new Date(endDateRef.current?.value || ''),
+  //     publisher: `Anonymus_${Math.floor(Math.random() * 10000 + 1)}`,
+  //     created_at: new Date(),
+  //     PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
+  //   };
+
+  //   const optionsPayload: OptionsType[] = [];
+
+  //   choicesArray.map((choice) => {
+  //     let payload: OptionsType = {
+  //       id: Math.floor(Math.random() * 10000 + 1),
+  //       proposal_id: proposalId,
+  //       opt: choice,
+  //       created_at: new Date(),
+  //       PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
+  //     };
+  //     optionsPayload.push(payload);
+  //   });
+
+  //   proposalCtx.addProposal(proposalPayload);
+  //   proposalCtx.addOption(optionsPayload);
+  // };
+  const onSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    const proposalId = Math.floor(Math.random() * 10000 + 1);
-    const proposalPayload: ProposalsType = {
-      id: proposalId,
+    const proposalPayload: { [key: string]: string } = {
       title: titleRef.current?.value || '',
       description: descriptionRef.current?.value || '',
-      end_date: new Date(endDateRef.current?.value || ''),
-      publisher: `Anonymus_${Math.floor(Math.random() * 10000 + 1)}`,
-      created_at: new Date(),
-      PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
+      end_date: new Date(endDateRef.current?.value || '').toLocaleString(),
+      publisher: '0xf5383b4e0d3EDDA3B6c091e51AbE58F882c98ce3',
     };
+    const formData = new FormData();
+    formData.append('title', titleRef.current?.value || '');
+    formData.append('description', descriptionRef.current?.value || '');
+    formData.append('end_date', new Date(endDateRef.current?.value || '').toLocaleString());
+    formData.append('publisher', '0xf5383b4e0d3EDDA3B6c091e51AbE58F882c98ce3');
 
-    const optionsPayload: OptionsType[] = [];
-
-    choicesArray.map((choice) => {
-      let payload: OptionsType = {
-        id: Math.floor(Math.random() * 10000 + 1),
-        proposal_id: proposalId,
-        opt: choice,
-        created_at: new Date(),
-        PRIMARY_KEY: `${Math.floor(Math.random() * 10000 + 1)}`,
-      };
-      optionsPayload.push(payload);
+    choicesArray.map((choice, index) => {
+      formData.append(`choices[${index}]`, choice);
     });
 
-    proposalCtx.addProposal(proposalPayload);
-    proposalCtx.addOption(optionsPayload);
+    try {
+      console.log(formData);
+      const response = await fetch('http://bros.superlativesecretsociety.com/proposal/insert.php', {
+        method: 'POST',
+        body: formData,
+      });
+      const responseJSON = await response.json();
+      if (!response.ok) {
+        throw new Error(responseJSON.message);
+      }
+      console.log(responseJSON);
+    } catch (err) {
+      console.log(err, typeof err);
+
+      return err;
+    }
   };
 
   return (
