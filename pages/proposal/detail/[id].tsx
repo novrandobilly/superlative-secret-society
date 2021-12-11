@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import { DateTime } from 'luxon';
@@ -55,26 +55,30 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
           </p>
         )}
         {foundProposal?.description && <p className={styles.Description}>{foundProposal?.description}</p>}
-        <ul className={styles.OptionList}>
-          {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => {
-            return (
-              <li
-                key={`${opt.opt}_${index}`}
-                onClick={(e) => onSelectHandler(e, opt.opt, opt.id)}
-                style={{
-                  backgroundColor: opt.opt === optionSelected ? '#0d6efd' : '#fff',
-                  color: opt.opt === optionSelected ? '#fff' : '#0d6efd',
-                }}>
-                {opt.opt}
-              </li>
-            );
-          })}
-        </ul>
-        <div className={styles.ButtonContainer}>
-          <button className={styles.SubmitButton} onClick={onSubmitVoteHandler}>
-            Submit
-          </button>
-        </div>
+        {new Date(foundProposal?.end_date) > new Date() && (
+          <Fragment>
+            <ul className={styles.OptionList}>
+              {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => {
+                return (
+                  <li
+                    key={`${opt.opt}_${index}`}
+                    onClick={(e) => onSelectHandler(e, opt.opt, opt.id)}
+                    style={{
+                      backgroundColor: opt.opt === optionSelected ? '#0d6efd' : '#fff',
+                      color: opt.opt === optionSelected ? '#fff' : '#0d6efd',
+                    }}>
+                    {opt.opt}
+                  </li>
+                );
+              })}
+            </ul>
+            <div className={styles.ButtonContainer}>
+              <button className={styles.SubmitButton} onClick={onSubmitVoteHandler}>
+                Submit
+              </button>
+            </div>
+          </Fragment>
+        )}
       </div>
       <div className={styles.ResultsContainer}>
         <h3>Result</h3>
