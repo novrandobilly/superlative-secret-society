@@ -3,25 +3,20 @@ import styles from './Layout.module.scss';
 import { ethers } from 'ethers';
 import { initOnboard } from '../helpers/services';
 
-let provider: { [key: string]: any } | null;
+let provider: any;
 
 const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
-  const [onboard, setOnboard] = useState<{ [key: string]: any } | null>(null);
+  const [onboard, setOnboard] = useState<any>(null);
   const [walletAddr, setWalletAddr] = useState<string>('');
   const [wallet, setWallet] = useState<any>({});
 
-  console.log(wallet, walletAddr);
-
   useEffect(() => {
     const onboard = initOnboard({
-      wallet: (wallet: { [key: string]: any }) => {
+      wallet: (wallet: any) => {
         if (wallet.provider) {
           setWallet(wallet);
-
           provider = new ethers.providers.Web3Provider(wallet.provider, 'any');
-          console.log(provider);
           window.localStorage.setItem('selectedWallet', wallet.name);
-
           console.log(`${wallet.name} connected!`);
         } else {
           provider = null;
@@ -50,10 +45,9 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
     const ready = await onboard?.walletCheck();
     return ready;
   };
-
   async function showState() {
     if (onboard != null) {
-      const currentState = await onboard?.getState();
+      const currentState = await onboard.getState();
       console.log(currentState);
       setWalletAddr(currentState['address']);
     }
