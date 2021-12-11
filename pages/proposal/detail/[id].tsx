@@ -6,22 +6,16 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import styles from './ProposalDetail.module.scss';
 
 const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ foundProposal }) => {
-  console.log(foundProposal);
-
-  const getPercentage = (object: { [option: string]: number }, index: number, power: number): string => {
-    return ((object[`option_${index + 1}`] * 100) / power).toFixed(1);
-  };
-
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
         <h1 className={styles.Title}>{foundProposal?.title}</h1>
         <p className={styles.DateEnds} suppressHydrationWarning>
-          Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'days' })}
+          Ends {DateTime.fromJSDate(new Date(foundProposal?.end_date)).toRelative({ unit: 'days' })}
         </p>
-        {foundProposal.description && <p className={styles.Description}>{foundProposal.description}</p>}
+        {foundProposal?.description && <p className={styles.Description}>{foundProposal?.description}</p>}
         <ul className={styles.OptionList}>
-          {foundProposal.options.map((opt: { [key: string]: any }, index: number) => {
+          {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => {
             return <li key={`${opt.opt}_${index}`}>{opt.opt}</li>;
           })}
         </ul>
@@ -32,18 +26,18 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
       <div className={styles.ResultsContainer}>
         <h3>Result</h3>
         <ul className={styles.OptionsContainer}>
-          {foundProposal.options.map((opt: { [key: string]: any }, index: number) => (
+          {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => (
             <li key={`${opt.opt}_${index}`} className={styles.OptionItemPoll}>
               <div className={styles.OptionPercentage}>
                 <p>{opt.opt}</p>
                 <p>
-                  {foundProposal.calculated_voting_points[index]?.point}-{' '}
-                  {foundProposal.calculated_voting_points[index]?.percentage}%
+                  {foundProposal?.calculated_voting_points[index]?.point}-{' '}
+                  {foundProposal?.calculated_voting_points[index]?.percentage}%
                 </p>
               </div>
               <div className={styles.ProgressBarBackground}>
                 <div
-                  style={{ width: `${foundProposal.calculated_voting_points[index]?.percentage}%` }}
+                  style={{ width: `${foundProposal?.calculated_voting_points[index]?.percentage}%` }}
                   className={styles.ProgressBar}></div>
               </div>
             </li>
@@ -52,14 +46,14 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
       </div>
 
       <div className={styles.VotesContainer}>
-        <h3>{foundProposal.votes.length} votes</h3>
+        <h3>{foundProposal?.votes.length} votes</h3>
         <ul className={styles.VoterList}>
-          {foundProposal.votes.map((vote: { [key: string]: any }, index: number) => (
+          {foundProposal?.votes.map((vote: { [key: string]: any }, index: number) => (
             <li key={`${vote.opt_id}_${index}`}>
               <p>
                 {vote.voter_addr} <span>( {vote.voting_power} SuperlativeSS )</span>
               </p>
-              <p>{`${foundProposal.options.find((opt: { [key: string]: any }) => opt.id === vote.opt_id)?.opt}`}</p>
+              <p>{`${foundProposal?.options.find((opt: { [key: string]: any }) => opt.id === vote.opt_id)?.opt}`}</p>
             </li>
           ))}
         </ul>
