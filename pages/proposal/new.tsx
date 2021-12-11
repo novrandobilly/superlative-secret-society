@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext, FormEventHandler } from 'react';
 import { ProposalContext } from '../../store/proposal-context';
 import { OptionsType, ProposalsType } from '../../models';
 import Layout from '../../components/Layout';
-import Image from 'next/image';
 import styles from './new.module.scss';
 import BackArrow from '../../assets/icons/BackArrow.svg';
 import Link from 'next/link';
@@ -106,9 +105,7 @@ const NewProposal = () => {
     <Layout home={false}>
       <div className={styles.HeadingTitle}>
         <Link href='/' passHref>
-          <div>
-            <Image width={30} height={30} src={BackArrow} alt='Back Arrow' />
-          </div>
+          <div style={{ fontSize: '50px' }}>&larr;</div>
         </Link>
         <h1>Create Proposal</h1>
       </div>
