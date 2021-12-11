@@ -47,35 +47,39 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
   };
   async function showState() {
     if (onboard != null) {
-      const currentState = await onboard.getState();
-      console.log(currentState);
-      setWalletAddr(currentState['address']);
+      try {
+        const currentState = await onboard.getState();
+        console.log(currentState);
+        setWalletAddr(currentState['address']);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
   return (
     <div className={styles.Container}>
       <div className={styles.HeaderNav}>
         <h1>{home ? 'Proposals' : ''}</h1>
-        <div className={styles.ButtonAddressContainer}>
-          <div className={styles.ButtonOnly}>
-            <button
+
+        <div className={styles.ButtonOnly}>
+          <button
+            onClick={async () => {
+              await onboard?.walletSelect();
+              console.log(wallet);
+              showState();
+            }}>
+            Connect
+          </button>
+          {/* <button
               onClick={async () => {
-                await onboard?.walletSelect();
-                console.log(wallet);
-                showState();
-              }}>
-              Connect
-            </button>
-            <button
-              onClick={async () => {
-                await onboard?.walletReset;
+                await onboard?.walletReset();
                 console.log(wallet);
                 setWalletAddr('');
               }}>
               Logout
-            </button>
-          </div>
-          <p>{walletAddr}</p>
+            </button> */}
+
+          {walletAddr && <p className={styles.WalletAddress}>{walletAddr}</p>}
         </div>
       </div>
       {children}
