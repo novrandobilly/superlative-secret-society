@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Layout from '../../../components/Layout';
 import { DateTime } from 'luxon';
@@ -6,6 +6,12 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 import styles from './ProposalDetail.module.scss';
 
 const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ foundProposal }) => {
+  const [optionSelected, setOptionSelected] = useState<string>('');
+  console.log(optionSelected);
+  const onSelectHandler = (event: React.MouseEvent, newValue: string): void => {
+    event.preventDefault();
+    setOptionSelected(newValue);
+  };
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
@@ -16,7 +22,17 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
         {foundProposal?.description && <p className={styles.Description}>{foundProposal?.description}</p>}
         <ul className={styles.OptionList}>
           {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => {
-            return <li key={`${opt.opt}_${index}`}>{opt.opt}</li>;
+            return (
+              <li
+                key={`${opt.opt}_${index}`}
+                onClick={(e) => onSelectHandler(e, opt.opt)}
+                style={{
+                  backgroundColor: opt.opt === optionSelected ? '#0d6efd' : '#fff',
+                  color: opt.opt === optionSelected ? '#fff' : '#0d6efd',
+                }}>
+                {opt.opt}
+              </li>
+            );
           })}
         </ul>
         <div className={styles.ButtonContainer}>
