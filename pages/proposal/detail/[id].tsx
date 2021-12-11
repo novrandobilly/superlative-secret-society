@@ -7,10 +7,34 @@ import styles from './ProposalDetail.module.scss';
 
 const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ foundProposal }) => {
   const [optionSelected, setOptionSelected] = useState<string>('');
+  const [optionId, setOptionId] = useState<string>('');
   console.log(optionSelected);
-  const onSelectHandler = (event: React.MouseEvent, newValue: string): void => {
+  const onSelectHandler = (event: React.MouseEvent, newValue: string, optionId: string): void => {
     event.preventDefault();
     setOptionSelected(newValue);
+    setOptionId(optionId);
+  };
+
+  const onSubmitVoteHandler = async () => {
+    const formData = new FormData();
+    formData.append('proposal_id', foundProposal?.id || '');
+    formData.append('voter_addr', '0xf5383b4e0d3EDDA3B6c091e51AbE58F882c98ce3');
+    formData.append('voting_power', '1');
+    formData.append('opt_id', optionId);
+    try {
+      const response = await fetch('http://bros.superlativesecretsociety.com/proposal/vote.php', {
+        method: 'POST',
+        body: formData,
+      });
+      const responseJSON = await response.json();
+      if (!response.ok) {
+        throw new Error(responseJSON.message);
+      }
+      console.log(responseJSON);
+    } catch (err) {
+      console.log(err, typeof err);
+      return err;
+    }
   };
   return (
     <Layout home={false}>
@@ -25,7 +49,7 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
             return (
               <li
                 key={`${opt.opt}_${index}`}
-                onClick={(e) => onSelectHandler(e, opt.opt)}
+                onClick={(e) => onSelectHandler(e, opt.opt, opt.id)}
                 style={{
                   backgroundColor: opt.opt === optionSelected ? '#0d6efd' : '#fff',
                   color: opt.opt === optionSelected ? '#fff' : '#0d6efd',
@@ -36,7 +60,9 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
           })}
         </ul>
         <div className={styles.ButtonContainer}>
-          <button className={styles.SubmitButton}>Submit</button>
+          <button className={styles.SubmitButton} onClick={onSubmitVoteHandler}>
+            Submit
+          </button>
         </div>
       </div>
       <div className={styles.ResultsContainer}>

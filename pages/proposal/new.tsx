@@ -86,7 +86,6 @@ const NewProposal = () => {
     });
 
     try {
-      console.log(formData);
       const response = await fetch('http://bros.superlativesecretsociety.com/proposal/insert.php', {
         method: 'POST',
         body: formData,
