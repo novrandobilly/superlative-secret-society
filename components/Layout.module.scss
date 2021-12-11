@@ -16,13 +16,31 @@
       margin: 0;
       font-size: 40px;
     }
-    button {
-      background-color: #0d6efd;
-      color: #fff;
-      border-radius: 5px;
-      font-size: 18px;
-      border: none;
-      padding: 10px 25px;
+    .ButtonAddressContainer {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      .ButtonOnly {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 10px;
+        button {
+          background-color: #0d6efd;
+          color: #fff;
+          border-radius: 5px;
+          font-size: 18px;
+          border: none;
+          padding: 10px 25px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+      p {
+        margin: 0;
+        text-align: center;
+      }
     }
   }
 }
