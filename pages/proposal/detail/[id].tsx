@@ -9,11 +9,17 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
   const router = useRouter();
   const [optionSelected, setOptionSelected] = useState<string>('');
   const [optionId, setOptionId] = useState<string>('');
+  const [dateEnds, setDateEnds] = useState<{ [key: string]: any }>(
+    DateTime.fromJSDate(new Date(foundProposal.end_date))
+      .diff(DateTime.now(), ['months', 'days', 'hours', 'minutes'])
+      .toObject()
+  );
   const onSelectHandler = (event: React.MouseEvent, newValue: string, optionId: string): void => {
     event.preventDefault();
     setOptionSelected(newValue);
     setOptionId(optionId);
   };
+  console.log(dateEnds);
 
   const onSubmitVoteHandler = async () => {
     const formData = new FormData();
@@ -45,7 +51,13 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
 
         {new Date(foundProposal.end_date) > new Date() ? (
           <p className={styles.DateEnds} suppressHydrationWarning>
-            Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'days' })}
+            Ends in{' '}
+            {parseInt(dateEnds.days) > 1
+              ? `${dateEnds.days} days`
+              : parseInt(dateEnds.hours) > 1
+              ? `${dateEnds.hours} hours`
+              : `${dateEnds.minutes} minutes`}
+            {/* Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'minutes' })} */}
           </p>
         ) : (
           <p className={styles.DateEndsClosed} suppressHydrationWarning>
