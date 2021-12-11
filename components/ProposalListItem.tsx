@@ -10,7 +10,7 @@ const ProposalListItem: React.FC<ProposalsType> = ({ title, created_at, publishe
       <div className={styles.Container}>
         <h2>{title}</h2>
         <div className={styles.DateId}>
-          <p suppressHydrationWarning>{DateTime.fromJSDate(created_at).toRelative({ unit: 'days' })} &nbsp;</p>
+          <p>{DateTime.fromJSDate(new Date(created_at)).toRelative({ unit: 'hours' })} &nbsp;</p>
           <p>&bull;&nbsp;&nbsp;by {publisher}</p>
         </div>
         {description && <p>{description}</p>}

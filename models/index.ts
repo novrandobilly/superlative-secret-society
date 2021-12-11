@@ -14,7 +14,7 @@ export interface OptionsType {
 }
 
 export interface ProposalsType {
-  id: number;
+  id: string;
   title: string;
   description: string;
   end_date: Date;

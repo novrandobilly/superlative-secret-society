@@ -31,3 +31,16 @@
     right: 15px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .Container {
+    .DateId {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      p {
+        word-wrap: break-word;
+      }
+    }
+  }
+}
