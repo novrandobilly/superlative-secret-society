@@ -22,29 +22,38 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
     formData.append('voter_addr', '0xf5383b4e0d3EDDA3B6c091e51AbE58F882c98ce3');
     formData.append('voting_power', '1');
     formData.append('opt_id', optionId);
-    try {
-      const response = await fetch('http://bros.superlativesecretsociety.com/proposal/vote.php', {
-        method: 'POST',
-        body: formData,
-      });
-      const responseJSON = await response.json();
-      if (!response.ok) {
-        throw new Error(responseJSON.message);
+    if (new Date(foundProposal?.end_date) > new Date()) {
+      try {
+        const response = await fetch('http://bros.superlativesecretsociety.com/proposal/vote.php', {
+          method: 'POST',
+          body: formData,
+        });
+        const responseJSON = await response.json();
+        if (!response.ok) {
+          throw new Error(responseJSON.message);
+        }
+        console.log(responseJSON);
+        router.push(`/proposal/detail/${foundProposal.id}`);
+      } catch (err) {
+        console.log(err, typeof err);
+        return err;
       }
-      console.log(responseJSON);
-      router.push(`/proposal/detail/${foundProposal.id}`);
-    } catch (err) {
-      console.log(err, typeof err);
-      return err;
     }
   };
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
         <h1 className={styles.Title}>{foundProposal?.title}</h1>
-        <p className={styles.DateEnds} suppressHydrationWarning>
-          Ends {DateTime.fromJSDate(new Date(foundProposal?.end_date)).toRelative({ unit: 'days' })}
-        </p>
+
+        {new Date(foundProposal?.end_date) > new Date() ? (
+          <p className={styles.DateEnds} suppressHydrationWarning>
+            Ends {DateTime.fromJSDate(new Date(foundProposal?.end_date)).toRelative({ unit: 'days' })}
+          </p>
+        ) : (
+          <p className={styles.DateEndsClosed} suppressHydrationWarning>
+            Closed
+          </p>
+        )}
         {foundProposal?.description && <p className={styles.Description}>{foundProposal?.description}</p>}
         <ul className={styles.OptionList}>
           {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => {

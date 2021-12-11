@@ -3,6 +3,17 @@
   .DateEnds {
     color: #8a8a8a;
   }
+  .DateEndsClosed {
+    background-color: maroon;
+    color: #fff;
+    width: 100%;
+    max-width: 100px;
+    border-radius: 20px;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+  }
   .Description {
     font-size: 28px;
   }
