@@ -30,22 +30,6 @@ const Home: NextPage<{ foundProposal: { [key: string]: any } }> = ({ foundPropos
 };
 
 export default Home;
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const res = await fetch('http://bros.superlativesecretsociety.com/proposal/all.php');
-//   const resJSON = await res.json();
-//   console.log(resJSON);
-
-//   let paths = resJSON.map((data: { [key: string]: any }) => {
-//     return {
-//       params: { id: data.id },
-//     };
-//   });
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const res = await fetch('http://bros.superlativesecretsociety.com/proposal/all.php');

@@ -93,7 +93,6 @@ const NewProposal = () => {
       if (!response.ok) {
         throw new Error(responseJSON.message);
       }
-      console.log(responseJSON);
     } catch (err) {
       console.log(err, typeof err);
 

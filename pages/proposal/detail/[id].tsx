@@ -119,7 +119,6 @@ export default ProposalId;
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await fetch('http://bros.superlativesecretsociety.com/proposal/all.php');
   const resJSON = await res.json();
-  console.log(resJSON);
 
   let paths = resJSON.map((data: { [key: string]: any }) => {
     return {
