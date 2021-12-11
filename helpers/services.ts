@@ -7,6 +7,7 @@ export function initOnboard(subscriptions: any) {
   return Onboard({
     dappId: BLOCKNATIVE_KEY,
     networkId: NETWORK_ID,
+    networkName: 'Matic',
     subscriptions,
     walletSelect: {
       wallets: [

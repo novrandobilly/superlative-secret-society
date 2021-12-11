@@ -34,7 +34,7 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
     if (previouslySelectedWallet && onboard) {
       onboard.walletSelect(previouslySelectedWallet);
     }
-  }, [onboard]);
+  }, []);
 
   const readyToTransact = async () => {
     if (!provider) {
@@ -62,14 +62,16 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
         <h1>{home ? 'Proposals' : ''}</h1>
 
         <div className={styles.ButtonOnly}>
-          <button
-            onClick={async () => {
-              await onboard?.walletSelect();
-              console.log(wallet);
-              showState();
-            }}>
-            Connect
-          </button>
+          {!home && (
+            <button
+              onClick={async () => {
+                await onboard?.walletSelect();
+                console.log(wallet);
+                showState();
+              }}>
+              Connect
+            </button>
+          )}
           {/* <button
               onClick={async () => {
                 await onboard?.walletReset();
