@@ -29,7 +29,7 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
     formData.append('opt_id', optionId);
     if (new Date(foundProposal?.end_date) > new Date()) {
       try {
-        const response = await fetch('https://bros.superlativesecretsociety.com/proposal/vote.php', {
+        const response = await fetch('http://bros.superlativesecretsociety.com/proposal/vote.php', {
           method: 'POST',
           body: formData,
         });

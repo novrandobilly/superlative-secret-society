@@ -30,11 +30,10 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
 
   useEffect(() => {
     const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
-
     if (previouslySelectedWallet && onboard) {
       onboard.walletSelect(previouslySelectedWallet);
     }
-  }, []);
+  }, [onboard]);
 
   const readyToTransact = async () => {
     if (!provider) {
