@@ -15,7 +15,7 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
-        <h1 className={styles.Title}>{foundProposal.title}</h1>
+        <h1 className={styles.Title}>{foundProposal?.title}</h1>
         <p className={styles.DateEnds} suppressHydrationWarning>
           Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'days' })}
         </p>
