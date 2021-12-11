@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-
+import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import { DateTime } from 'luxon';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import styles from './ProposalDetail.module.scss';
 
 const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ foundProposal }) => {
+  const router = useRouter();
   const [optionSelected, setOptionSelected] = useState<string>('');
   const [optionId, setOptionId] = useState<string>('');
-  console.log(optionSelected);
   const onSelectHandler = (event: React.MouseEvent, newValue: string, optionId: string): void => {
     event.preventDefault();
     setOptionSelected(newValue);
     setOptionId(optionId);
   };
+  console.log(foundProposal);
 
   const onSubmitVoteHandler = async () => {
     const formData = new FormData();
@@ -31,6 +32,7 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
         throw new Error(responseJSON.message);
       }
       console.log(responseJSON);
+      router.push(`/proposal/detail/${foundProposal.id}`);
     } catch (err) {
       console.log(err, typeof err);
       return err;
@@ -68,19 +70,16 @@ const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ found
       <div className={styles.ResultsContainer}>
         <h3>Result</h3>
         <ul className={styles.OptionsContainer}>
-          {foundProposal?.options.map((opt: { [key: string]: any }, index: number) => (
+          {foundProposal?.calculated_voting_points.map((opt: { [key: string]: any }, index: number) => (
             <li key={`${opt.opt}_${index}`} className={styles.OptionItemPoll}>
               <div className={styles.OptionPercentage}>
                 <p>{opt.opt}</p>
                 <p>
-                  {foundProposal?.calculated_voting_points[index]?.point}-{' '}
-                  {foundProposal?.calculated_voting_points[index]?.percentage}%
+                  {opt?.point}- {opt?.percentage}%
                 </p>
               </div>
               <div className={styles.ProgressBarBackground}>
-                <div
-                  style={{ width: `${foundProposal?.calculated_voting_points[index]?.percentage}%` }}
-                  className={styles.ProgressBar}></div>
+                <div style={{ width: `${opt?.percentage}%` }} className={styles.ProgressBar}></div>
               </div>
             </li>
           ))}
