@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.scss';
 import ProposalListItem from '../components/ProposalListItem';
+import type { GetStaticProps } from 'next';
 
 const Home: NextPage = () => {
   const proposalCtx = useContext(ProposalContext);

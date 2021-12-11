@@ -11,50 +11,51 @@ import styles from './ProposalDetail.module.scss';
 //   foundProposal,
 //   foundOptions,
 // }) => {
-const ProposalId: React.FC = () => {
-  const [proposal, setProposal] = useState<ProposalsType>({
-    id: 0,
-    title: '',
-    description: '',
-    end_date: new Date(),
-    publisher: '',
-    created_at: new Date(),
-    PRIMARY_KEY: '',
-  });
-  const [options, setOptions] = useState<OptionsType[]>([]);
-  const [votes, setVotes] = useState<VotesType[]>([]);
-  const [totalPower, setTotalPower] = useState<number>(0);
-  const [percentage, setPercentage] = useState<{ [option: string]: number }>({});
+const ProposalId: React.FC<{ foundProposal: { [key: string]: any } }> = ({ foundProposal }) => {
+  console.log(foundProposal);
+  // const [proposal, setProposal] = useState<ProposalsType>({
+  //   id: 0,
+  //   title: '',
+  //   description: '',
+  //   end_date: new Date(),
+  //   publisher: '',
+  //   created_at: new Date(),
+  //   PRIMARY_KEY: '',
+  // });
+  // const [options, setOptions] = useState<OptionsType[]>([]);
+  // const [votes, setVotes] = useState<VotesType[]>([]);
+  // const [totalPower, setTotalPower] = useState<number>(0);
+  // const [percentage, setPercentage] = useState<{ [option: string]: number }>({});
 
-  const proposalCtx = useContext(ProposalContext);
-  const id = useRouter().query.id;
+  // const proposalCtx = useContext(ProposalContext);
+  // const id = useRouter().query.id;
 
-  useEffect(() => {
-    const foundProposal = proposalCtx.proposals.find((proposal) => proposal.id.toString() === id);
-    const foundOptions = proposalCtx.options.filter((opt) => opt.proposal_id.toString() === id);
-    const foundVotes = proposalCtx.votes.filter((vote) => vote.proposal_id.toString() === id);
+  // useEffect(() => {
+  //   const foundProposal = proposalCtx.proposals.find((proposal) => proposal.id.toString() === id);
+  //   const foundOptions = proposalCtx.options.filter((opt) => opt.proposal_id.toString() === id);
+  //   const foundVotes = proposalCtx.votes.filter((vote) => vote.proposal_id.toString() === id);
 
-    if (foundVotes.length > 1 && foundOptions.length > 1 && foundProposal) {
-      foundOptions.map((opt, i) => {
-        let temp: number = 0;
-        foundVotes.map((vote) => {
-          if (vote.opt_id === opt.id) temp += vote.voting_power;
-        });
-        setPercentage((prevState) => {
-          let tempState = {
-            ...prevState,
-            [`option_${i + 1}`]: temp,
-          };
-          return tempState;
-        });
-      });
-      let calculatePower: number = foundVotes.map((vote) => vote.voting_power).reduce((prev, curr) => prev + curr);
-      setProposal(foundProposal);
-      setOptions(foundOptions);
-      setTotalPower(calculatePower);
-      setVotes(foundVotes);
-    }
-  }, [proposalCtx]);
+  //   if (foundVotes.length > 1 && foundOptions.length > 1 && foundProposal) {
+  //     foundOptions.map((opt, i) => {
+  //       let temp: number = 0;
+  //       foundVotes.map((vote) => {
+  //         if (vote.opt_id === opt.id) temp += vote.voting_power;
+  //       });
+  //       setPercentage((prevState) => {
+  //         let tempState = {
+  //           ...prevState,
+  //           [`option_${i + 1}`]: temp,
+  //         };
+  //         return tempState;
+  //       });
+  //     });
+  //     let calculatePower: number = foundVotes.map((vote) => vote.voting_power).reduce((prev, curr) => prev + curr);
+  //     setProposal(foundProposal);
+  //     setOptions(foundOptions);
+  //     setTotalPower(calculatePower);
+  //     setVotes(foundVotes);
+  //   }
+  // }, [proposalCtx]);
 
   // let percentage: { [option: string]: number } = {};
 
@@ -65,13 +66,16 @@ const ProposalId: React.FC = () => {
   return (
     <Layout home={false}>
       <div className={styles.QuestionsContainer}>
-        <h1 className={styles.Title}>{proposal.title}</h1>
+        {/* <h1 className={styles.Title}>{proposal.title}</h1> */}
+        <h1 className={styles.Title}>{foundProposal.title}</h1>
         <p className={styles.DateEnds} suppressHydrationWarning>
-          Ends {DateTime.fromJSDate(new Date(proposal.end_date)).toRelative({ unit: 'days' })}
+          {/* Ends {DateTime.fromJSDate(new Date(proposal.end_date)).toRelative({ unit: 'days' })} */}
+          Ends {DateTime.fromJSDate(new Date(foundProposal.end_date)).toRelative({ unit: 'days' })}
         </p>
-        {proposal.description && <p className={styles.Description}>{proposal.description}</p>}
+        {/* {proposal.description && <p className={styles.Description}>{proposal.description}</p>} */}
+        {foundProposal.description && <p className={styles.Description}>{foundProposal.description}</p>}
         <ul className={styles.OptionList}>
-          {options.map((opt, index) => {
+          {foundProposal.options.map((opt: { [key: string]: any }, index: number) => {
             return <li key={`${opt.opt}_${index}`}>{opt.opt}</li>;
           })}
         </ul>
@@ -82,12 +86,14 @@ const ProposalId: React.FC = () => {
       <div className={styles.ResultsContainer}>
         <h3>Result</h3>
         <ul className={styles.OptionsContainer}>
-          {options.map((opt, index) => (
+          {foundProposal.options.map((opt: { [key: string]: any }, index: number) => (
             <li key={`${opt.opt}_${index}`} className={styles.OptionItemPoll}>
               <div className={styles.OptionPercentage}>
                 <p>{opt.opt}</p>
                 <p>
-                  {percentage[`option_${index + 1}`]}- {getPercentage(percentage, index, totalPower)}%
+                  {/* {percentage[`option_${index + 1}`]}- {getPercentage(percentage, index, totalPower)}% */}
+                  {foundProposal.calculated_voting_points[index]?.point}-{' '}
+                  {foundProposal.calculated_voting_points[index]?.percentage}%
                 </p>
                 {/* <p>
                   {votes
@@ -101,7 +107,7 @@ const ProposalId: React.FC = () => {
               </div>
               <div className={styles.ProgressBarBackground}>
                 <div
-                  style={{ width: `${getPercentage(percentage, index, totalPower)}%` }}
+                  style={{ width: `${foundProposal.calculated_voting_points[index]?.percentage}%` }}
                   className={styles.ProgressBar}></div>
               </div>
             </li>
@@ -110,14 +116,14 @@ const ProposalId: React.FC = () => {
       </div>
 
       <div className={styles.VotesContainer}>
-        <h3>{votes.length} votes</h3>
+        <h3>{foundProposal.votes.length} votes</h3>
         <ul className={styles.VoterList}>
-          {votes.map((vote, index) => (
+          {foundProposal.votes.map((vote: { [key: string]: any }, index: number) => (
             <li key={`${vote.opt_id}_${index}`}>
               <p>
                 {vote.voter_addr} <span>( {vote.voting_power} SuperlativeSS )</span>
               </p>
-              <p>{`${options.find((opt) => opt.id === vote.opt_id)?.opt}`}</p>
+              <p>{`${foundProposal.options.find((opt: { [key: string]: any }) => opt.id === vote.opt_id)?.opt}`}</p>
             </li>
           ))}
         </ul>
@@ -160,3 +166,27 @@ export default ProposalId;
 //     },
 //   };
 // };
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [{ params: { id: '21' } }, { params: { id: '2' } }],
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const proposalId = params?.id;
+  let res, resJSON;
+  try {
+    res = await fetch(`http://bros.superlativesecretsociety.com/proposal/id.php?id=${proposalId}`);
+    resJSON = await res.json();
+  } catch (err) {
+    console.log(err);
+    resJSON = err;
+  }
+  return {
+    props: {
+      foundProposal: resJSON,
+    },
+  };
+};
