@@ -19,7 +19,7 @@ export const ProposalContext = createContext<ProposalContextType>({
 const ProposalContextProvider: React.FC = ({ children }) => {
   const [proposalList, setProposalList] = useState<ProposalsType[]>([
     {
-      id: 1,
+      id: '1',
       title: 'Do you like art?',
       description: 'To determine how much you like the art.',
       end_date: new Date('05/05/2022'),
@@ -28,7 +28,7 @@ const ProposalContextProvider: React.FC = ({ children }) => {
       PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
     },
     {
-      id: 2,
+      id: ' 2',
       title: 'Do you like music?',
       description: 'To determine how much you like the music.',
       end_date: new Date('05/05/2022'),
@@ -37,7 +37,7 @@ const ProposalContextProvider: React.FC = ({ children }) => {
       PRIMARY_KEY: '0x4e0843e8daa53406121588feebf0cde0f1fcefc1',
     },
     {
-      id: 3,
+      id: '3',
       title: 'Do you like programming?',
       description: 'To determine how much you like the programming.',
       end_date: new Date('05/05/2022'),
