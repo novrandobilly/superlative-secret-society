@@ -60,17 +60,16 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
       <div className={styles.HeaderNav}>
         <h1>{home ? 'Proposals' : ''}</h1>
 
-        <div className={styles.ButtonOnly}>
-          {!home && (
-            <button
-              onClick={async () => {
-                await onboard?.walletSelect();
-                console.log(wallet);
-                showState();
-              }}>
-              Connect
-            </button>
-          )}
+        <div className={styles.ButtonOnlyContainer}>
+          <button
+            onClick={async () => {
+              await onboard?.walletSelect();
+              console.log(wallet);
+              showState();
+            }}>
+            Connect
+          </button>
+
           {/* <button
               onClick={async () => {
                 await onboard?.walletReset();
@@ -79,7 +78,6 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
               }}>
               Logout
             </button> */}
-
           {walletAddr && <p className={styles.WalletAddress}>{walletAddr}</p>}
         </div>
       </div>

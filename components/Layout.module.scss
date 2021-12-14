@@ -17,12 +17,13 @@
       font-size: 40px;
     }
 
-    .ButtonOnly {
+    .ButtonOnlyContainer {
       display: flex;
       justify-content: space-evenly;
       margin-bottom: 10px;
-      max-width: 300px;
+      max-width: 600px;
       width: 100%;
+
       button {
         background-color: #0d6efd;
         color: #fff;
@@ -38,7 +39,7 @@
         border: 1px solid #0d6efd;
         color: #0d6efd;
         width: 100%;
-        max-width: 120px;
+        max-width: 420px;
         border-radius: 5px;
         white-space: nowrap;
         overflow: hidden;

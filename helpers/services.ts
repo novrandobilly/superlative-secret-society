@@ -9,11 +9,5 @@ export function initOnboard(subscriptions: any) {
     networkId: NETWORK_ID,
     networkName: 'Matic',
     subscriptions,
-    walletSelect: {
-      wallets: [
-        { walletName: 'metamask', preferred: true },
-        { walletName: 'coinbase', preferred: true },
-      ],
-    },
   });
 }
