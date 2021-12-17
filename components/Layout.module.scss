@@ -45,6 +45,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
         padding: 8px 10px 0;
+        word-break: break-word;
+        word-wrap: break-word;
       }
     }
     p {

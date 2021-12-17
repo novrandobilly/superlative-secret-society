@@ -64,6 +64,7 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
           <button
             onClick={async () => {
               await onboard?.walletSelect();
+              await onboard?.walletCheck();
               console.log(wallet);
               showState();
             }}>
@@ -78,9 +79,9 @@ const Layout: React.FC<{ home: boolean }> = ({ children, home }) => {
               }}>
               Logout
             </button> */}
-          {walletAddr && <p className={styles.WalletAddress}>{walletAddr}</p>}
         </div>
       </div>
+      {walletAddr && <p className={styles.WalletAddress}>{walletAddr}</p>}
       {children}
     </div>
   );
